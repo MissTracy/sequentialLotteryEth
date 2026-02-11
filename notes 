@@ -1,0 +1,17 @@
+nvm install 22.10.0  # Install it if you haven't already
+nvm use 22.10.0      # Switch to this version
+node -v              # Verify it says v22.10.0
+
+// Match length => payout %
+2 numbers → 5%
+3 numbers → 5%
+4 numbers → 10%
+5 numbers → 15%
+6 numbers → 20%
+7 numbers → 30%
+Owner     → 30%
+
+
+Chainlink gives a random seed "ord"like a bag of marbles you can’t see inside.
+
+contract pulls 7 unique balls (numbers) out of that bag.
