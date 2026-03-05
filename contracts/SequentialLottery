@@ -1,4 +1,4 @@
- // SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -29,9 +29,6 @@ contract SequentialLottery is VRFConsumerBaseV2_5, Ownable, ReentrancyGuard {
     bytes32 keyHash;
     uint32 callbackGasLimit = 2500000;
 
-    // — track VRF request
-    uint256 public lastRequestId;
-
     event TicketPurchased(address indexed player, uint8[] numbers);
     event NumbersDrawn(uint256 indexed roundId, uint8[] numbers);
     event Winner(address indexed player, uint256 amount, uint8 matches);
@@ -52,11 +49,25 @@ contract SequentialLottery is VRFConsumerBaseV2_5, Ownable, ReentrancyGuard {
         emit TicketPurchased(msg.sender, _numbers);
     }
 
+    // function requestDraw() external onlyOwner {
+    //     require(rounds[roundId].tickets.length > 0, "No tickets");
+        
+    //     IVRFCoordinatorV2_5(s_vrfCoordinator).requestRandomWords(
+    //         VRFV2PlusClient.RandomWordsRequest({
+    //             keyHash: keyHash,
+    //             subId: s_subscriptionId,
+    //             requestConfirmations: 3,
+    //             callbackGasLimit: callbackGasLimit,
+    //             numWords: 1,
+    //             extraArgs: "" 
+    //         })
+    //     );
+    // }
+
     function requestDraw() external onlyOwner {
         require(rounds[roundId].tickets.length > 0, "No tickets");
-        require(!rounds[roundId].isCompleted, "Round already completed");
-
-        lastRequestId = IVRFCoordinatorV2_5(s_vrfCoordinator).requestRandomWords(
+        
+        IVRFCoordinatorV2_5(s_vrfCoordinator).requestRandomWords(
             VRFV2PlusClient.RandomWordsRequest({
                 keyHash: keyHash,
                 subId: s_subscriptionId,
@@ -70,7 +81,8 @@ contract SequentialLottery is VRFConsumerBaseV2_5, Ownable, ReentrancyGuard {
         );
     }
 
-     function fulfillRandomWords(uint256, uint256[] memory randomWords) internal override {
+
+    function fulfillRandomWords(uint256, uint256[] memory randomWords) internal override {
         uint8[] memory drawn = new uint8[](7);
         for (uint8 i = 0; i < 7; i++) {
             drawn[i] = uint8((uint256(keccak256(abi.encode(randomWords, i))) % 49) + 1);

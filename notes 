@@ -15,3 +15,78 @@ Owner     → 30%
 Chainlink gives a random seed "ord"like a bag of marbles you can’t see inside.
 
 contract pulls 7 unique balls (numbers) out of that bag.
+
+Deploying SequentialLottery with account: 0xA69e8bcF05d620096608c01BF988Dbf8C4733197
+Contract deployed to: 0x24D62FB30CF01C093e0C05Eb71F9c15f297D50F2
+Tracys-MacBook-Pro:sequentialLotteryEth tracylethoko$ 
+
+Successfully submitted source code for contract
+contracts/SequentialLottery.sol:SequentialLottery at 0x24D62FB30CF01C093e0C05Eb71F9c15f297D50F2
+for verification on the block explorer. Waiting for verification result...
+
+
+npx hardhat verify --network sepolia 0xd9629d4a3f98ffEc1eDcDfA9Ee1eb3D4575bc78D "0x9DdfaCa8183c41ad55329BdeeD9F6A8d53168B1B" "0x787d74caea10b2b357790d5b5247c2f63d1d91572a9846f780606e4d953677ae" 12579
+
+
+ialLotteryEth tracylethoko$ npx hardhat run scripts/deploy.js --network sepolia
+Deploying with account: 0xA69e8bcF05d620096608c01BF988Dbf8C4733197
+Contract deployed to: 0xd9629d4a3f98ffEc1eDcDfA9Ee1eb3D4575bc78D
+Tracys-MacBook-Pro:sequentialLotteryEth tracylethoko$ 
+
+
+==================================================================
+For more information, visit https://v2.hardhat.org/hardhat-runner/plugins/nomicfoundation-hardhat-verify#verifying-on-sourcify
+Successfully submitted source code for contract
+contracts/SequentialLottery.sol:SequentialLottery at 0xd9629d4a3f98ffEc1eDcDfA9Ee1eb3D4575bc78D
+for verification on the block explorer. Waiting for verification result...
+
+Successfully verified contract SequentialLottery on the block explorer.
+https://sepolia.etherscan.io/address/0xd9629d4a3f98ffEc1eDcDfA9Ee1eb3D4575bc78D#code
+
+Tracys-MacBook-Pro:sequentialLotteryEth tracylethoko$ 
+
+
+
+==========================================
+==========================================
+Tracys-MacBook-Pro:sequentialLotteryEth tracylethoko$ npx hardhat compile
+Compiled 6 Solidity files successfully (evm target: paris).
+Tracys-MacBook-Pro:sequentialLotteryEth tracylethoko$ npx hardhat run scripts/deploy.js --network sepolia
+Deploying with account: 0xA69e8bcF05d620096608c01BF988Dbf8C4733197
+Lottery V2.5 Deployed to: 0xc301E27FFfee755Df52FE81570619E520fAd1d7D
+Tracys-MacBook-Pro:sequentialLotteryEth tracylethoko$ 
+
+npm start
+scripts/deploy.js --network sepolia
+lethoko@Tracys-MacBook-Pro sequentialLotteryEth % npx hardhat run scripts/deploy.js --network sepolia                              
+
+Compiled 1 Solidity file successfully (evm target: paris).
+Deploying with account: 0xA69e8bcF05d620096608c01BF988Dbf8C4733197
+Lottery V2.5 Deployed to: 0x747546b663BD8D5Cdce5462b84917C87089ec753
+tracylethoko@Tracys-MacBook-Pro sequentialLotteryEth % h % 
+
+fully (evm target: paris).
+Deploying with account: 0xA69e8bcF05d620096608c01BF988Dbf8C4733197
+Lottery V2.5 Deployed to: 0x747546b663BD8D5Cdce5462b84917C87089ec753
+tracylethoko@Tracys-MacBook-Pro sequentialLotteryEth % npx hardhat verify --network sepolia 0x747546b663BD8D5Cdce5462b84917C87089ec753 \
+"0x9DdfaCa8183c41ad55329BdeeD9F6A8d53168B1B" \
+"0x787d74caea10b2b357790d5b5247c2f63d1d91572a9846f780606e4d953677ae" \
+109319310681203604710033540367421638478046310807095712953269749014357046271836
+
+[INFO] Sourcify Verification Skipped: Sourcify verification is currently disabled. To enable it, add the following entry to your Hardhat configuration:
+
+sourcify: {
+  enabled: true
+}
+
+Or set 'enabled' to false to hide this message.
+
+For more information, visit https://v2.hardhat.org/hardhat-runner/plugins/nomicfoundation-hardhat-verify#verifying-on-sourcify
+Successfully submitted source code for contract
+contracts/SequentialLottery.sol:SequentialLottery at 0x747546b663BD8D5Cdce5462b84917C87089ec753
+for verification on the block explorer. Waiting for verification result...
+
+Successfully verified contract SequentialLottery on the block explorer.
+https://sepolia.etherscan.io/address/0x747546b663BD8D5Cdce5462b84917C87089ec753#code
+
+tracylethoko@Tracys-MacBook-Pro sequentialLotteryEth % 

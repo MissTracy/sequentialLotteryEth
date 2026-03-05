@@ -1,4 +1,4 @@
- // SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -7,9 +7,15 @@ import "./VRFConsumerBaseV2_5.sol";
 import "./VRFV2PlusClient.sol";
 
 contract SequentialLottery is VRFConsumerBaseV2_5, Ownable, ReentrancyGuard {
+
     uint256 public ticketPrice = 0.001 ether;
     uint256 public roundId = 1;
-    uint256 s_subscriptionId; 
+    uint256 public s_subscriptionId;
+
+    bytes32 public keyHash;
+    uint32 public callbackGasLimit = 500000;
+
+    uint256 public lastRequestId;
 
     struct Ticket {
         address player;
@@ -26,79 +32,101 @@ contract SequentialLottery is VRFConsumerBaseV2_5, Ownable, ReentrancyGuard {
     mapping(uint256 => Round) public rounds;
     mapping(address => uint256) public pendingWithdrawals;
 
-    bytes32 keyHash;
-    uint32 callbackGasLimit = 2500000;
-
-    // — track VRF request
-    uint256 public lastRequestId;
-
     event TicketPurchased(address indexed player, uint8[] numbers);
     event NumbersDrawn(uint256 indexed roundId, uint8[] numbers);
     event Winner(address indexed player, uint256 amount, uint8 matches);
 
-    constructor(address vrfCoordinator, bytes32 _keyHash, uint256 subscriptionId) 
-        VRFConsumerBaseV2_5(vrfCoordinator) 
-    {
+    constructor(
+        address vrfCoordinator,
+        bytes32 _keyHash,
+        uint256 subscriptionId
+    ) VRFConsumerBaseV2_5(vrfCoordinator) {
         keyHash = _keyHash;
         s_subscriptionId = subscriptionId;
     }
 
+    // BUY TICKET
     function buyTicket(uint8[] calldata _numbers) external payable nonReentrant {
         require(_numbers.length == 7, "7 numbers required");
         require(msg.value == ticketPrice, "Incorrect ETH");
-        
+
         rounds[roundId].tickets.push(Ticket(msg.sender, _numbers));
         rounds[roundId].prizePool += msg.value;
+
         emit TicketPurchased(msg.sender, _numbers);
     }
 
+    // REQUEST RANDOM DRAW (OWNER ONLY)
     function requestDraw() external onlyOwner {
         require(rounds[roundId].tickets.length > 0, "No tickets");
-        require(!rounds[roundId].isCompleted, "Round already completed");
+        require(!rounds[roundId].isCompleted, "Round completed");
 
-        lastRequestId = IVRFCoordinatorV2_5(s_vrfCoordinator).requestRandomWords(
-            VRFV2PlusClient.RandomWordsRequest({
-                keyHash: keyHash,
-                subId: s_subscriptionId,
-                requestConfirmations: 3,
-                callbackGasLimit: callbackGasLimit,
-                numWords: 1,
-                extraArgs: VRFV2PlusClient._argsToBytes(
-                    VRFV2PlusClient.ExtraArgsV1({nativePayment: false})
-                )
-            })
-        );
+        lastRequestId = IVRFCoordinatorV2_5(s_vrfCoordinator)
+            .requestRandomWords(
+                VRFV2PlusClient.RandomWordsRequest({
+                    keyHash: keyHash,
+                    subId: s_subscriptionId,
+                    requestConfirmations: 3,
+                    callbackGasLimit: callbackGasLimit,
+                    numWords: 1,
+                    extraArgs: VRFV2PlusClient._argsToBytes(
+                        VRFV2PlusClient.ExtraArgsV1({nativePayment: false})
+                    )
+                })
+            );
     }
 
-     function fulfillRandomWords(uint256, uint256[] memory randomWords) internal override {
-        uint8[] memory drawn = new uint8[](7);
-        for (uint8 i = 0; i < 7; i++) {
-            drawn[i] = uint8((uint256(keccak256(abi.encode(randomWords, i))) % 49) + 1);
-        }
-        
-        rounds[roundId].drawnNumbers = drawn;
-        _distributePrizes(roundId);
-        rounds[roundId].isCompleted = true;
-        emit NumbersDrawn(roundId, drawn);
-        roundId++;
+    function fulfillRandomWords(
+            uint256,
+            uint256[] memory randomWords
+        ) internal override {
+
+            uint8[7] memory drawn;  
+
+
+            for (uint8 i = 0; i < 7; i++) {
+                drawn[i] = uint8(
+                    (uint256(keccak256(abi.encode(randomWords[0], i))) % 49) + 1
+                );
+            }
+
+            Round storage round = rounds[roundId];
+            round.drawnNumbers = drawn;
+            round.isCompleted = true;
+
+            emit NumbersDrawn(roundId, drawn);
+
+            _storeWinners(roundId);
+
+            roundId++; // start next round
     }
 
-    function _distributePrizes(uint256 _roundId) internal {
+
+    // STORE WINNERS (NO TRANSFERS HERE — GAS SAFE)
+    function _storeWinners(uint256 _roundId) internal {
+
         Round storage round = rounds[_roundId];
+
         uint256 ownerShare = (round.prizePool * 30) / 100;
         pendingWithdrawals[owner()] += ownerShare;
 
         uint256 remainingPool = round.prizePool - ownerShare;
 
         for (uint256 i = 0; i < round.tickets.length; i++) {
-            uint8 matches = _countSequentialMatches(round.tickets[i].numbers, round.drawnNumbers);
+
+            uint8 matches = _countSequentialMatches(
+                round.tickets[i].numbers,
+                round.drawnNumbers
+            );
+
             uint256 prize = 0;
 
             if (matches == 7) prize = (remainingPool * 30) / 100;
             else if (matches == 6) prize = (remainingPool * 20) / 100;
             else if (matches == 5) prize = (remainingPool * 15) / 100;
             else if (matches == 4) prize = (remainingPool * 10) / 100;
-            else if (matches == 2 || matches == 3) prize = (remainingPool * 5) / 100;
+            else if (matches == 2 || matches == 3)
+                prize = (remainingPool * 5) / 100;
 
             if (prize > 0) {
                 pendingWithdrawals[round.tickets[i].player] += prize;
@@ -107,18 +135,30 @@ contract SequentialLottery is VRFConsumerBaseV2_5, Ownable, ReentrancyGuard {
         }
     }
 
-    function _countSequentialMatches(uint8[] memory ticket, uint8[] memory drawn) internal pure returns (uint8) {
+    // COUNT MATCHES FROM START (SEQUENTIAL)
+    function _countSequentialMatches(
+        uint8[] memory ticket,
+        uint8[] memory drawn
+    ) internal pure returns (uint8) {
+
         uint8 count = 0;
+
         for (uint8 i = 0; i < 7; i++) {
-            if (ticket[i] == drawn[i]) { count++; } else { break; }
+            if (ticket[i] == drawn[i]) count++;
+            else break;
         }
+
         return count;
     }
 
+    // 💸 WITHDRAW WINNINGS
     function withdraw() external nonReentrant {
+
         uint256 amount = pendingWithdrawals[msg.sender];
         require(amount > 0, "No funds");
+
         pendingWithdrawals[msg.sender] = 0;
+
         (bool success, ) = payable(msg.sender).call{value: amount}("");
         require(success, "Transfer failed");
     }

@@ -1,0 +1,213 @@
+/* --- ORIGINAL HERO & LANDING STYLES --- */
+.hero-container {
+  min-height: 100vh;
+  padding: 0 8%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)); 
+  background-size: cover;
+}
+
+.hero-title {
+  font-size: clamp(2rem, 8vw, 6rem);
+  font-weight: 900;
+  margin: 0;
+  letter-spacing: -2px;
+}
+
+.hero-subtitle {
+  font-size: 1.2rem;
+  color: #888;
+  max-width: 600px;
+  line-height: 1.6;
+  margin: 20px 0 40px 0;
+}
+
+.landing-info-spread {
+  display: flex;
+  gap: 40px;
+  margin-bottom: 50px;
+}
+
+.info-block span {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.info-block small {
+  color: #555;
+  letter-spacing: 1px;
+}
+
+/* --- DASHBOARD GRID LAYOUT --- */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 40% 40% 20%;
+  height: 100vh;
+  gap: 2px; 
+  background-color: #1a1a1a;
+}
+
+.selection-board, .stats-panel, .system-space {
+  background-color: #000;
+  padding: 40px;
+  overflow-y: auto;
+}
+
+.accent-orange { color: rgb(255, 95, 9); }
+
+.section-label {
+  font-size: 0.8rem;
+  letter-spacing: 3px;
+  color: #666;
+  margin-bottom: 30px;
+}
+
+/* --- LOTTO BALLS & SELECTION --- */
+.lotto-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+}
+
+.ball {
+  aspect-ratio: 1;
+  background: #111;
+  border: 1px solid #333;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.ball.active {
+  background: rgb(255, 95, 9);
+  border-color: rgb(255, 95, 9);
+  box-shadow: 0 0 15px rgba(255, 95, 9, 0.3);
+}
+
+/* --- STAT CARDS & BUTTONS --- */
+.stat-card {
+  background: #111;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+}
+
+.stat-value {
+  display: block;
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: rgb(255, 95, 9);
+}
+
+.timer { color: #fff; text-shadow: 0 0 10px rgb(255, 95, 9); }
+
+.btn-primary {
+  background: rgb(255, 95, 9);
+  color: white;
+  border: none;
+  padding: 15px 40px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* --- SYSTEM & ADMIN --- */
+.system-tag {
+  font-size: 0.7rem;
+  color: #444;
+  margin-bottom: 10px;
+  border: 1px solid #222;
+  padding: 5px;
+}
+
+.btn-admin {
+  width: 100%;
+  background: transparent;
+  border: 1px solid rgb(255, 95, 9);
+  color: rgb(255, 95, 9);
+  padding: 10px;
+  cursor: pointer;
+}
+
+.logout-link {
+  margin-top: 50px;
+  background: none;
+  border: none;
+  color: #444;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+/* --- NEW INTEGRATED CLAIMING UI STYLES --- */
+
+.claim-section {
+  background: #111;
+  border-left: 4px solid rgb(255, 95, 9);
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+}
+
+.claim-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #222;
+}
+
+.claim-row span {
+  font-family: monospace;
+  font-weight: bold;
+  color: #fff;
+}
+
+.btn-claim-small {
+  background: transparent;
+  border: 1px solid rgb(255, 95, 9);
+  color: rgb(255, 95, 9);
+  padding: 6px 15px;
+  border-radius: 2px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.btn-claim-small:hover {
+  background: rgb(255, 95, 9);
+  color: #000;
+}
+
+.stat-card.winner {
+  border: 1px solid rgb(255, 95, 9);
+  background: linear-gradient(to right, #111, #1a0a00);
+}
+
+.btn-withdraw {
+  width: 100%;
+  margin-top: 15px;
+  background: rgb(255, 95, 9);
+  color: #fff;
+  border: none;
+  padding: 10px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+/* --- TICKET LIST STYLES --- */
+.my-entries {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #222;
+}
+
+.entry-row {
+  background: #111;
+  padding: 10px;
+  margin-bottom: 5px;
+  font-family: monospace;
+  font-size: 0.9rem;
+  border-radius: 4px;
+}

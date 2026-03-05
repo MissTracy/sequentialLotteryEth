@@ -1,0 +1,15 @@
+export const CONTRACT_ADDR = "0x747546b663BD8D5Cdce5462b84917C87089ec753";
+
+export const LOTTO_ABI = [
+  "function buyTicket(uint8[] _numbers) external payable",
+  "function requestDraw() external",
+  "function claimPrize(uint256 _roundId) external", 
+  "function roundId() public view returns (uint256)", 
+  "function rounds(uint256) public view returns (uint8[] drawnNumbers, bool isCompleted, uint256 prizePool)",
+  "function owner() public view returns (address)",
+  "function pendingWithdrawals(address) public view returns (uint256)",
+  "function withdraw() external",
+  "event TicketPurchased(address indexed player, uint256 indexed roundId, uint8[] numbers)", 
+  "event NumbersDrawn(uint256 indexed roundId, uint8[] numbers)",
+  "event PrizeClaimed(address indexed player, uint256 amount)" 
+];
