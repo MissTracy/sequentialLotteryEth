@@ -1,137 +1,142 @@
+/* dashbord layout */
+
+
 .hero-container {
-    min-height: 100vh;
-    padding: 0 8%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)); 
-    background-size: cover;
-  }
-  
-  .hero-title {
-    font-size: clamp(2rem, 8vw, 6rem);
-    font-weight: 900;
-    margin: 0;
-    letter-spacing: -2px;
-  }
-  
-  .hero-subtitle {
-    font-size: 1.2rem;
-    color: #888;
-    max-width: 600px;
-    line-height: 1.6;
-    margin: 20px 0 40px 0;
-  }
-  
-  .landing-info-spread {
-    display: flex;
-    gap: 40px;
-    margin-bottom: 50px;
-  }
-  
-  .info-block span {
-    display: block;
-    font-size: 1.5rem;
-    font-weight: bold;
-  }
-  
-  .info-block small {
-    color: #555;
-    letter-spacing: 1px;
-  }
-  
-  .dashboard-grid {
-    display: grid;
-    grid-template-columns: 40% 40% 20%;
-    height: 100vh;
-    gap: 2px; 
-    background-color: #1a1a1a;
-  }
-  
-  .selection-board, .stats-panel, .system-space {
-    background-color: #000;
-    padding: 40px;
-    overflow-y: auto;
-  }
-  
-  .accent-orange { color: rgb(255, 95, 9); }
-  
-  .section-label {
-    font-size: 0.8rem;
-    letter-spacing: 3px;
-    color: #666;
-    margin-bottom: 30px;
-  }
-  
-  .lotto-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 10px;
-  }
-  
-  .ball {
-    aspect-ratio: 1;
-    background: #111;
-    border: 1px solid #333;
-    color: white;
-    cursor: pointer;
-    border-radius: 4px;
-  }
-  
-  .ball.active {
-    background: rgb(255, 95, 9);
-    border-color: rgb(255, 95, 9);
-    box-shadow: 0 0 15px rgba(255, 95, 9, 0.3);
-  }
-  
-  .stat-card {
-    background: #111;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 4px;
-  }
-  
-  .stat-value {
-    display: block;
-    font-size: 2.5rem;
-    font-weight: 800;
-    color: rgb(255, 95, 9);
-  }
-  
-  .timer { color: #fff; text-shadow: 0 0 10px rgb(255, 95, 9); }
-  
-  .btn-primary {
-    background: rgb(255, 95, 9);
-    color: white;
-    border: none;
-    padding: 15px 40px;
-    font-weight: bold;
-    cursor: pointer;
-  }
-  
-  .system-tag {
-    font-size: 0.7rem;
-    color: #444;
-    margin-bottom: 10px;
-    border: 1px solid #222;
-    padding: 5px;
-  }
-  
-  .btn-admin {
-    width: 100%;
-    background: transparent;
-    border: 1px solid rgb(255, 95, 9);
-    color: rgb(255, 95, 9);
-    padding: 10px;
-    cursor: pointer;
-  }
-  
-  .logout-link {
-    margin-top: 50px;
-    background: none;
-    border: none;
-    color: #444;
-    cursor: pointer;
-    text-decoration: underline;
-  }
-  
+  min-height: 100vh;
+  padding: 0 8%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)); 
+  background-size: cover;
+}
+
+.hero-title {
+  font-size: clamp(2rem, 8vw, 6rem);
+  font-weight: 900;
+  margin: 0;
+  letter-spacing: -2px;
+}
+
+.hero-subtitle {
+  font-size: 1.2rem;
+  color: #888;
+  max-width: 600px;
+  line-height: 1.6;
+  margin: 20px 0 40px 0;
+}
+
+.landing-info-spread {
+  display: flex;
+  gap: 40px;
+  margin-bottom: 50px;
+}
+
+.info-block span {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.info-block small {
+  color: #555;
+  letter-spacing: 1px;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 40% 40% 20%;
+  height: 100vh;
+  gap: 2px; 
+  background-color: #1a1a1a;
+}
+
+.selection-board, .stats-panel, .system-space {
+  background-color: #000;
+  padding: 40px;
+  overflow-y: auto;
+}
+
+.accent-orange { color: rgb(255, 95, 9); }
+
+.section-label {
+  font-size: 0.8rem;
+  letter-spacing: 3px;
+  color: #666;
+  margin-bottom: 30px;
+}
+
+.lotto-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+}
+
+.ball {
+  aspect-ratio: 1;
+  background: #111;
+  border: 1px solid #333;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ball.active {
+  background: rgb(255, 95, 9);
+  border-color: rgb(255, 95, 9);
+  box-shadow: 0 0 15px rgba(255, 95, 9, 0.3);
+}
+
+.stat-card {
+  background: #111;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+}
+
+.stat-value {
+  display: block;
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: rgb(255, 95, 9);
+}
+
+.timer { color: #fff; text-shadow: 0 0 10px rgb(255, 95, 9); }
+
+.btn-primary {
+  background: rgb(255, 95, 9);
+  color: white;
+  border: none;
+  padding: 15px 40px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.system-tag {
+  font-size: 0.7rem;
+  color: #444;
+  margin-bottom: 10px;
+  border: 1px solid #222;
+  padding: 5px;
+}
+
+.btn-admin {
+  width: 100%;
+  background: transparent;
+  border: 1px solid rgb(255, 95, 9);
+  color: rgb(255, 95, 9);
+  padding: 10px;
+  cursor: pointer;
+}
+
+.logout-link {
+  margin-top: 50px;
+  background: none;
+  border: none;
+  color: #444;
+  cursor: pointer;
+  text-decoration: underline;
+}
